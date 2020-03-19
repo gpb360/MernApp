@@ -1,6 +1,7 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitForElement } from "@testing-library/react";
 import App from "./App";
+import renderWithContext from "./utils/test";
 
 test("renders Tracking Information", () => {
   const { getByTestId } = render(<App />);
@@ -8,9 +9,10 @@ test("renders Tracking Information", () => {
   expect(header).toBeInTheDocument();
 });
 
-test("renders Tracking Information", () => {
-  const { getByText, debug, container } = render(<App />);
-  const button = getByText(/Track Product/i);
+test("Button opens tacking modal on Click", async () => {
+  const { getByText, container, debug } = renderWithContext(<App />);
+  const button = getByText(/Track Tracking/i);
   fireEvent.click(button);
-  debug(container);
+  const movie = await waitForElement(() => getByText("Tracking Description"));
+  expect(movie).toBeInTheDocument();
 });

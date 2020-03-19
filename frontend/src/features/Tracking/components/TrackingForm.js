@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Form } from "semantic-ui-react";
-import http from "../../api";
-import "./productsForm.styles.scss";
+import http from "../../../api";
+import "./trackingForm.styles.scss";
 
 const getElevation = async (longitude, latitude) => {
   try {
@@ -24,7 +24,7 @@ const getElevation = async (longitude, latitude) => {
   }
 };
 
-const ProductsForm = ({ handleClose, handleAdd }) => {
+const TrackingsForm = ({ handleClose, handleAdd }) => {
   const { register, errors, handleSubmit, control } = useForm({
     nativeValidation: true
   });
@@ -34,7 +34,7 @@ const ProductsForm = ({ handleClose, handleAdd }) => {
     const { longitude, latitude, datetime } = formData;
     const elevation = await getElevation(latitude, longitude);
     const date = datetime || new Date().toISOString();
-    const { data } = await http.post("/products/add", {
+    const { data } = await http.post("/trackings/add", {
       ...formData,
       datetime: date,
       elevation
@@ -48,7 +48,7 @@ const ProductsForm = ({ handleClose, handleAdd }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Input
-        label="Product Description"
+        label="Tracking Description"
         error={description ? { content: description.message } : false}
       >
         <input
@@ -99,4 +99,4 @@ const ProductsForm = ({ handleClose, handleAdd }) => {
   );
 };
 
-export default ProductsForm;
+export default TrackingsForm;

@@ -1,3 +1,3 @@
-import AddProductModal from "./Modal";
+import AddTrackingModal from "./Modal";
 
-export default AddProductModal;
+export default AddTrackingModal;

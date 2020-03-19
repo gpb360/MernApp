@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProductsContext = React.createContext();
+const TrackingContext = React.createContext();
 
 const types = {
   LOAD_PRODUCTS: "LOAD_PRODUCTS",
@@ -11,8 +11,8 @@ const types = {
   ERROR: "ERROR"
 };
 
-function productsReducer(state, action) {
-  const { products } = state;
+function trackingReducer(state, action) {
+  const { trackings } = state;
   const { payload, type } = action;
   console.log("State", state, "Action", action);
   switch (type) {
@@ -21,16 +21,16 @@ function productsReducer(state, action) {
     case types.CLOSE_MODAL:
       return { ...state, show: false };
     case types.LOAD_PRODUCTS:
-      return { ...state, products: payload.products, isLoading: true };
+      return { ...state, trackings: payload.trackings, isLoading: true };
     case types.ADD_TRACKING:
       return {
         ...state,
-        products: [...products, payload.row]
+        trackings: [...trackings, payload.row]
       };
     case types.DELETE_TRACKING:
       return {
         ...state,
-        products: products.filter(product => product._id !== payload.id)
+        trackings: trackings.filter(tracking => tracking._id !== payload.id)
       };
     case types.ERROR:
       return { ...state, error: "Sorry something went wrong" };
@@ -39,28 +39,28 @@ function productsReducer(state, action) {
   }
 }
 
-function ProductsProvider(props) {
-  const [state, dispatch] = React.useReducer(productsReducer, {
-    products: [],
+function TrackingProvider(props) {
+  const [state, dispatch] = React.useReducer(trackingReducer, {
+    trackings: [],
     isLoading: false,
     show: false
   });
   const value = React.useMemo(() => [state, dispatch], [state]);
-  return <ProductsContext.Provider value={value} {...props} />;
+  return <TrackingContext.Provider value={value} {...props} />;
 }
 
-function useProducts() {
-  const context = React.useContext(ProductsContext);
+function useTracking() {
+  const context = React.useContext(TrackingContext);
   if (!context) {
-    throw new Error(`useProducts must be used within a ProductsProvider`);
+    throw new Error(`useTrackings must be used within a TrackingsProvider`);
   }
   const [state, dispatch] = context;
 
   const actions = {
-    loadProducts: data =>
+    loadTrackings: data =>
       dispatch({
         type: types.LOAD_PRODUCTS,
-        payload: { products: data }
+        payload: { trackings: data }
       }),
     deleteTracking: id =>
       dispatch({
@@ -83,4 +83,4 @@ function useProducts() {
   };
 }
 
-export { ProductsProvider, useProducts };
+export { TrackingProvider, useTracking };

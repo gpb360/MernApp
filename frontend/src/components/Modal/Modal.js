@@ -18,7 +18,7 @@ const Modal = ({
         primary
         size="small"
         onClick={openModal}
-        className="products-btn"
+        className="trackings-btn"
       >
         <Icon name="user" /> {buttonName}
       </Button>

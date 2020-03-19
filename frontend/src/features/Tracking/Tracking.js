@@ -1,22 +1,17 @@
-import React, { useMemo, useState, useEffect, useReducer } from "react";
+import React, { useMemo, useEffect } from "react";
 import moment from "moment";
 import http from "../../api";
 import { Button, Header } from "semantic-ui-react";
 import ReactTable from "../../components/Table";
-import { ProductsProvider, useProducts } from "./productContext";
+import { useTracking } from "./trackingContext";
 
-const intialState = {
-  products: [],
-  isLoading: false
-};
-
-const Products = () => {
+const Tracking = () => {
   const {
-    state: { products, isLoading },
+    state: { trackings, isLoading },
     actions,
     dispatch,
     types
-  } = useProducts();
+  } = useTracking();
 
   const columns = useMemo(
     () => [
@@ -68,14 +63,14 @@ const Products = () => {
         }
       }
     ],
-    [products]
+    [trackings]
   );
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await http.get("/products");
-        actions.loadProducts(data);
+        const { data } = await http.get("/trackings");
+        actions.loadTrackings(data);
       } catch (error) {
         dispatch({ type: types.ERROR });
       }
@@ -86,7 +81,7 @@ const Products = () => {
 
   const handleDelete = async id => {
     try {
-      http.delete(`/products/${id}`);
+      http.delete(`/trackings/${id}`);
       actions.deleteTracking(id);
     } catch (err) {
       dispatch({ type: types.ERROR });
@@ -95,10 +90,10 @@ const Products = () => {
 
   return (
     <>
-      <Header>Products</Header>
-      <ReactTable columns={columns} data={products} isLoading={isLoading} />
+      <Header>Tracking</Header>
+      <ReactTable columns={columns} data={trackings} isLoading={isLoading} />
     </>
   );
 };
 
-export default Products;
+export default Tracking;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Container } from "semantic-ui-react";
-import Products from "./features/Products";
-import AddProduct from "./features/Products/AddProduct";
-import { ProductsProvider } from "./features/Products/productContext";
+import Trackings from "./features/Tracking";
+import AddTracking from "./features/Tracking/components/AddTracking";
+import { TrackingProvider } from "./features/Tracking/trackingContext";
 import "./app.styles.scss";
 
 function App() {
@@ -11,14 +11,14 @@ function App() {
   const handleOpen = () => setShow(true);
   return (
     <Container className="app" data-testid="trackingApp">
-      <ProductsProvider>
-        <AddProduct
+      <TrackingProvider>
+        <AddTracking
           show={show}
           handleOpen={handleOpen}
           handleClose={handleClose}
         />
-        <Products />
-      </ProductsProvider>
+        <Trackings />
+      </TrackingProvider>
     </Container>
   );
 }

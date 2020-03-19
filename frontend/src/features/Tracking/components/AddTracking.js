@@ -1,22 +1,22 @@
 import React from "react";
-import ProductsForm from "./ProductsForm";
-import Modal from "../../components/Modal";
-import { useProducts } from "./productContext";
+import TrackingForm from "./TrackingForm";
+import Modal from "../../../components/Modal";
+import { useTracking } from "../trackingContext";
 
-const AddProduct = () => {
+const AddTracking = () => {
   const {
     state: { show },
     actions
-  } = useProducts();
+  } = useTracking();
   return (
     <Modal
       open={show}
-      buttonName="Track Product"
+      buttonName="Track Tracking"
       openModal={actions.openModal}
       closeModal={actions.closeModal}
-      header="Track Product"
+      header="Track Tracking"
     >
-      <ProductsForm
+      <TrackingForm
         handleClose={actions.closeModal}
         handleAdd={actions.addTracking}
       />
@@ -24,4 +24,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AddTracking;
