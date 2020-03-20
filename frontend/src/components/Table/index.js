@@ -1,2 +1,2 @@
-import ReactTable from "./ReactTable";
-export default ReactTable;
+import Table from "./Table";
+export default Table;

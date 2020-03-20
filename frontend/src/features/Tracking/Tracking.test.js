@@ -1,7 +1,8 @@
 import React from "react";
-import App from "./App";
-import { render, waitForElement, cleanup } from "@testing-library/react";
-import http from "./api";
+import Tracking from "./Tracking";
+import { waitForElement, cleanup } from "@testing-library/react";
+import renderWithContext from "../../utils/test";
+import http from "../../api";
 
 const mockresponse = [
   {
@@ -26,11 +27,12 @@ afterEach(() => {
   cleanup();
 });
 
-test("renders App", async () => {
-  const { getByTestId, debug, container } = render(<App />);
+test("renders Tracking Information", async () => {
+  const { getByText } = renderWithContext(<Tracking />);
   http.get.mockResolvedValue({
     data: mockresponse
   });
-  await waitForElement(async () => getByTestId(/trackingApp/i));
-  debug(container);
+  const header = getByText(/Tracking/i);
+  await waitForElement(async () => header);
+  expect(header).toBeInTheDocument();
 });

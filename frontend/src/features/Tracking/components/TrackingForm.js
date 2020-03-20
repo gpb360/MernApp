@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Form } from "semantic-ui-react";
@@ -31,22 +31,20 @@ const TrackingsForm = ({ handleClose, handleAdd }) => {
 
   const onSubmit = async formData => {
     console.log(formData);
-    const { longitude, latitude, datetime } = formData;
+    const { longitude, latitude } = formData;
     const elevation = await getElevation(latitude, longitude);
-    const date = datetime || new Date().toISOString();
     const { data } = await http.post("/trackings/add", {
       ...formData,
-      datetime: date,
       elevation
     });
     await handleClose();
     handleAdd(data);
   };
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate] = useState(new Date());
 
   const { description, longitude, latitude } = errors;
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} data-testid="trackingForm">
       <Form.Input
         label="Tracking Description"
         error={description ? { content: description.message } : false}
@@ -77,7 +75,7 @@ const TrackingsForm = ({ handleClose, handleAdd }) => {
             placeholder="Latitude"
             type="number"
             name="latitude"
-            ref={register({ required: true })}
+            ref={register({ required: "Enter latitude" })}
           />
         </Form.Input>
         <Form.Input label="Date">

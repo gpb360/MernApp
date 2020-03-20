@@ -11,10 +11,10 @@ const AddTracking = () => {
   return (
     <Modal
       open={show}
-      buttonName="Track Tracking"
+      buttonName="Add Tracking"
       openModal={actions.openModal}
       closeModal={actions.closeModal}
-      header="Track Tracking"
+      header="Add Tracking"
     >
       <TrackingForm
         handleClose={actions.closeModal}

@@ -1,8 +1,8 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useCallback } from "react";
 import moment from "moment";
 import http from "../../api";
 import { Button, Header } from "semantic-ui-react";
-import ReactTable from "../../components/Table";
+import Table from "../../components/Table";
 import { useTracking } from "./trackingContext";
 
 const Tracking = () => {
@@ -12,6 +12,18 @@ const Tracking = () => {
     dispatch,
     types
   } = useTracking();
+
+  const handleDelete = useCallback(
+    async id => {
+      try {
+        await http.delete(`/trackings/${id}`);
+        actions.deleteTracking(id);
+      } catch (err) {
+        dispatch({ type: types.ERROR });
+      }
+    },
+    [actions, types, dispatch]
+  );
 
   const columns = useMemo(
     () => [
@@ -63,7 +75,7 @@ const Tracking = () => {
         }
       }
     ],
-    [trackings]
+    []
   );
 
   useEffect(() => {
@@ -75,23 +87,15 @@ const Tracking = () => {
         dispatch({ type: types.ERROR });
       }
     }
-
-    fetchData();
-  }, []);
-
-  const handleDelete = async id => {
-    try {
-      http.delete(`/trackings/${id}`);
-      actions.deleteTracking(id);
-    } catch (err) {
-      dispatch({ type: types.ERROR });
+    if (trackings.length === 0) {
+      fetchData();
     }
-  };
+  }, [dispatch, actions, types]);
 
   return (
     <>
       <Header>Tracking</Header>
-      <ReactTable columns={columns} data={trackings} isLoading={isLoading} />
+      <Table columns={columns} data={trackings} isLoading={isLoading} />
     </>
   );
 };

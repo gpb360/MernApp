@@ -14,7 +14,7 @@ const types = {
 function trackingReducer(state, action) {
   const { trackings } = state;
   const { payload, type } = action;
-  console.log("State", state, "Action", action);
+
   switch (type) {
     case types.OPEN_MODAL:
       return { ...state, show: true };
