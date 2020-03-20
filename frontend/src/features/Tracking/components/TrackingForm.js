@@ -91,7 +91,9 @@ const TrackingsForm = ({ handleClose, handleAdd }) => {
           />
         </Form.Input>
       </Form.Group>
-      <Button type="submit">Submit</Button>
+      <Button type="submit" data-testid="trackingSubmit">
+        Submit
+      </Button>
       <Button onClick={handleClose}>Close</Button>
     </Form>
   );

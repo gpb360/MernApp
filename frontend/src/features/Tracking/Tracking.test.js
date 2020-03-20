@@ -1,12 +1,12 @@
 import React from "react";
 import Tracking from "./Tracking";
-import { waitForElement, cleanup } from "@testing-library/react";
+import { waitForElement, cleanup, fireEvent } from "@testing-library/react";
 import renderWithContext from "../../utils/test";
 import http from "../../api";
 
 const mockresponse = [
   {
-    id: "1",
+    _id: "1",
     description: "Cesna 120",
     datetime: "2016-10-12T12:00:00-05:00",
     longitude: "43.2583264",
@@ -14,7 +14,7 @@ const mockresponse = [
     elevation: "500"
   },
   {
-    id: "1",
+    _id: "2",
     description: "Cesna 120",
     datetime: "2016-10-13T12:00:00-05:00",
     longitude: "42.559112",
@@ -35,4 +35,23 @@ test("renders Tracking Information", async () => {
   const header = getByText(/Tracking/i);
   await waitForElement(async () => header);
   expect(header).toBeInTheDocument();
+});
+
+test("deletes a record", async () => {
+  const { queryByTestId, getByTestId, debug, container } = renderWithContext(
+    <Tracking />
+  );
+  http.get.mockResolvedValueOnce({
+    data: mockresponse
+  });
+
+  http.delete.mockResolvedValueOnce({
+    data: null
+  });
+
+  const button = queryByTestId("deleteButton1");
+  await waitForElement(async () => button);
+  fireEvent.click(getByTestId("deleteButton2"));
+  await waitForElement(async () => button);
+  expect(queryByTestId("deleteButton2")).toBeNull();
 });

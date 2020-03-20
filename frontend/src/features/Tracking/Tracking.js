@@ -68,6 +68,7 @@ const Tracking = () => {
                 handleDelete(_id);
               }}
               size="tiny"
+              data-testid={`deleteButton${_id}`}
             >
               X
             </Button>
