@@ -170,13 +170,13 @@ connection.once("open", () => {
     }
   ];
   // Use Below collection to intitaload data used for when testing front end
-  // tracking.collection.insert(trackings, function(err, docs) {
-  //   if (err) {
-  //     return console.error(err);
-  //   } else {
-  //     console.log("Multiple trackings inserted to Collection");
-  //   }
-  // });
+  Tracking.collection.insert(trackings, function(err, docs) {
+    if (err) {
+      return console.error(err);
+    } else {
+      console.log("Multiple trackings inserted to Collection");
+    }
+  });
 });
 const trackingsRouter = require("./routes/trackings");
 
