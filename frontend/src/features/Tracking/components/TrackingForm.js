@@ -24,13 +24,12 @@ const getElevation = async (longitude, latitude) => {
   }
 };
 
-const TrackingsForm = ({ handleClose, handleAdd }) => {
+const TrackingsForm = ({ handleClose, handleAdd, error }) => {
   const { register, errors, handleSubmit, control } = useForm({
     nativeValidation: true
   });
-
+  console.log(error);
   const onSubmit = async formData => {
-    console.log(formData);
     const { longitude, latitude } = formData;
     const elevation = await getElevation(latitude, longitude);
     const { data } = await http.post("/trackings/add", {
@@ -43,11 +42,12 @@ const TrackingsForm = ({ handleClose, handleAdd }) => {
   const [startDate] = useState(new Date());
 
   const { description, longitude, latitude } = errors;
+  console.log(errors);
   return (
     <Form onSubmit={handleSubmit(onSubmit)} data-testid="trackingForm">
       <Form.Input
         label="Tracking Description"
-        error={description ? { content: description.message } : false}
+        error={description && { content: description.message }}
       >
         <input
           placeholder="Description"
@@ -58,7 +58,7 @@ const TrackingsForm = ({ handleClose, handleAdd }) => {
       <Form.Group>
         <Form.Input
           label="Longitude"
-          error={longitude ? { content: longitude.message } : false}
+          error={longitude && { content: longitude.message }}
         >
           <input
             placeholder="Longitude"
@@ -69,7 +69,7 @@ const TrackingsForm = ({ handleClose, handleAdd }) => {
         </Form.Input>
         <Form.Input
           label="Latitude"
-          error={latitude ? { content: latitude.message } : false}
+          error={latitude && { content: latitude.message }}
         >
           <input
             placeholder="Latitude"

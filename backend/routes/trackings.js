@@ -1,9 +1,9 @@
 const router = require("express").Router();
-let Product = require("../product.model");
+let Tracking = require("../tracking.model");
 
 router.route("/").get((req, res) => {
-  Product.find()
-    .then(products => res.json(products))
+  Tracking.find()
+    .then(trackings => res.json(trackings))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
@@ -14,7 +14,7 @@ router.route("/add").post((req, res) => {
   const elevation = Number(req.body.elevation);
   const datetime = Date.parse(req.body.datetime);
 
-  const newProduct = new Product({
+  const newTracking = new Tracking({
     description,
     longitude,
     latitude,
@@ -22,35 +22,35 @@ router.route("/add").post((req, res) => {
     datetime
   });
 
-  newProduct
+  newTracking
     .save()
-    .then(product => res.json(product))
+    .then(tracking => res.json(tracking))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id").get((req, res) => {
-  Product.findById(req.params.id)
-    .then(products => res.json(products))
+  Tracking.findById(req.params.id)
+    .then(trackings => res.json(trackings))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id").delete((req, res) => {
-  Product.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Product deleted."))
+  Tracking.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Tracking deleted."))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/update/:id").post((req, res) => {
-  Product.findById(req.params.id)
-    .then(product => {
-      product.description = req.body.description;
-      product.longitude = Number(req.body.longitude);
-      product.latitude = Number(req.body.latitude);
-      product.elevation = Number(req.body.elevation);
-      product.datetime = Date.parse(req.body.datetime);
-      product
+  Tracking.findById(req.params.id)
+    .then(tracking => {
+      tracking.description = req.body.description;
+      tracking.longitude = Number(req.body.longitude);
+      tracking.latitude = Number(req.body.latitude);
+      tracking.elevation = Number(req.body.elevation);
+      tracking.datetime = Date.parse(req.body.datetime);
+      tracking
         .save()
-        .then(product => res.json(product))
+        .then(tracking => res.json(tracking))
         .catch(err => res.status(400).json("Error: " + err));
     })
     .catch(err => res.status(400).json("Error: " + err));

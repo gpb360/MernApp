@@ -17,7 +17,7 @@ const connection = mongoose.connection;
 
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
-  const productSchema = mongoose.Schema(
+  const trackingSchema = mongoose.Schema(
     {
       description: { type: String, required: true },
       datetime: { type: Date, required: true },
@@ -30,8 +30,8 @@ connection.once("open", () => {
     }
   );
 
-  var Product = mongoose.model("Product", productSchema, "products");
-  var products = [
+  var Tracking = mongoose.model("tracking", trackingSchema, "trackings");
+  var trackings = [
     {
       id: "1",
       description: "Cesna 120",
@@ -170,17 +170,17 @@ connection.once("open", () => {
     }
   ];
   // Use Below collection to intitaload data used for when testing front end
-  // Product.collection.insert(products, function(err, docs) {
+  // tracking.collection.insert(trackings, function(err, docs) {
   //   if (err) {
   //     return console.error(err);
   //   } else {
-  //     console.log("Multiple Products inserted to Collection");
+  //     console.log("Multiple trackings inserted to Collection");
   //   }
   // });
 });
-const productsRouter = require("./routes/products");
+const trackingsRouter = require("./routes/trackings");
 
-app.use("/products", productsRouter);
+app.use("/trackings", trackingsRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

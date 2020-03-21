@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const productSchema = new Schema(
+const trackingSchema = new Schema(
   {
     description: { type: String, required: true },
     datetime: { type: Date, required: true },
@@ -15,6 +15,6 @@ const productSchema = new Schema(
   }
 );
 
-const Product = mongoose.model("Products", productSchema);
+const Tracking = mongoose.model("Trackings", trackingSchema);
 
-module.exports = Product;
+module.exports = Tracking;
